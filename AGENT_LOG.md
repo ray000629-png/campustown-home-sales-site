@@ -23,3 +23,9 @@ Copy this outline for each entry:
 - **Asked:** (with a screenshot of a reference page; prompt written in Chinese, translated here) "Make the web page follow the format of this example from the professor, with a more polished and complete interface and title. The wording can be a little different, and the colors can change too."
 - **Agent produced:** A new look for `index.html`: a dark navy header band with a small label, a large title and an intro line; four headline numbers (cities, sales counted, highest and lowest median); the price rule in a highlighted box; the bar chart and the table each in their own card; a Rank column in the table. All numbers still come from `data/city_median_prices.json`.
 - **Checked or changed:** The agent took screenshots at desktop width, phone width and in dark mode. Its first version had the headline numbers stuck to the bottom of the header, and on a phone the table was too wide and cut off its last column. It fixed both and checked again.
+
+## 2026-11-08: Finish the README
+
+- **Asked:** "now finish the README FILE in my repo"
+- **Agent produced:** Filled in every README section: the site's title, its question and audience, the live site link, fuller data notes (the price rule, how the medians are defined, and what the site does with each of the "Five things that will bite you"), and the tools used. It removed the "Start here" section, as the template says to, and the "Who did what" section, after asking whether I worked alone.
+- **Checked or changed:** The agent recounted the 31 sales over $5,000,000 from the CSV before stating it. It could not open the live site from its environment to confirm the link works, so I need to check that link myself.
