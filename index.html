@@ -9,60 +9,153 @@
   <style>
     :root {
       color-scheme: light;
-      --surface: #fcfcfb;
-      --text-primary: #0b0b0b;
-      --text-secondary: #52514e;
-      --text-muted: #6f6e69;
-      --rule: #e4e3df;
+      --page: #f4f5f8;
+      --card: #ffffff;
+      --card-border: #e3e5ec;
+      --card-head: #eef0f5;
+      --text-primary: #12162a;
+      --text-secondary: #4d5168;
+      --text-muted: #6c7088;
+      --rule: #e8eaf0;
+      --hero-bg: #1d2350;
+      --hero-text: #ffffff;
+      --hero-sub: #ccd1f0;
+      --hero-eyebrow: #f2c46d;
+      --note-bg: #fdf6e7;
+      --note-border: #d99a1e;
+      --note-text: #4a3a12;
       --bar: #2a78d6;
       --bar-hover: #1c5cab;
-      --tooltip-bg: #0b0b0b;
-      --tooltip-text: #fcfcfb;
+      --tooltip-bg: #12162a;
+      --tooltip-text: #ffffff;
+      --shadow: 0 1px 2px rgba(18, 22, 42, 0.05), 0 4px 16px rgba(18, 22, 42, 0.04);
     }
     @media (prefers-color-scheme: dark) {
       :root:not([data-theme="light"]) {
         color-scheme: dark;
-        --surface: #1a1a19;
-        --text-primary: #f0efec;
-        --text-secondary: #c3c2b7;
-        --text-muted: #9c9b93;
-        --rule: #3a3936;
+        --page: #131420;
+        --card: #1c1d2b;
+        --card-border: #2e3044;
+        --card-head: #24263a;
+        --text-primary: #eef0f8;
+        --text-secondary: #c0c3d6;
+        --text-muted: #9a9db3;
+        --rule: #2c2e42;
+        --hero-bg: #0d1030;
+        --hero-text: #ffffff;
+        --hero-sub: #b8bde3;
+        --hero-eyebrow: #f2c46d;
+        --note-bg: #2a2416;
+        --note-border: #d99a1e;
+        --note-text: #f1e2bf;
         --bar: #3987e5;
         --bar-hover: #6da7ec;
-        --tooltip-bg: #f0efec;
-        --tooltip-text: #1a1a19;
+        --tooltip-bg: #eef0f8;
+        --tooltip-text: #131420;
+        --shadow: none;
       }
     }
     :root[data-theme="dark"] {
       color-scheme: dark;
-      --surface: #1a1a19;
-      --text-primary: #f0efec;
-      --text-secondary: #c3c2b7;
-      --text-muted: #9c9b93;
-      --rule: #3a3936;
+      --page: #131420;
+      --card: #1c1d2b;
+      --card-border: #2e3044;
+      --card-head: #24263a;
+      --text-primary: #eef0f8;
+      --text-secondary: #c0c3d6;
+      --text-muted: #9a9db3;
+      --rule: #2c2e42;
+      --hero-bg: #0d1030;
+      --hero-text: #ffffff;
+      --hero-sub: #b8bde3;
+      --hero-eyebrow: #f2c46d;
+      --note-bg: #2a2416;
+      --note-border: #d99a1e;
+      --note-text: #f1e2bf;
       --bar: #3987e5;
       --bar-hover: #6da7ec;
-      --tooltip-bg: #f0efec;
-      --tooltip-text: #1a1a19;
+      --tooltip-bg: #eef0f8;
+      --tooltip-text: #131420;
+      --shadow: none;
     }
 
+    * { box-sizing: border-box; }
     body {
-      max-width: 48rem;
-      margin: 0 auto;
-      padding: 3rem 1rem;
-      font-family: system-ui, sans-serif;
+      margin: 0;
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
       line-height: 1.5;
-      background: var(--surface);
+      background: var(--page);
       color: var(--text-primary);
     }
-    h1 { line-height: 1.2; }
-    .lede, .note { color: var(--text-secondary); }
-    footer { margin-top: 3rem; font-size: 0.875rem; color: var(--text-muted); }
+    .wrap { max-width: 60rem; margin: 0 auto; padding: 0 1rem; }
+
+    /* Header band */
+    .hero { background: var(--hero-bg); color: var(--hero-text); padding: 3.5rem 0 3rem; }
+    .eyebrow {
+      margin: 0 0 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--hero-eyebrow);
+    }
+    .hero h1 {
+      margin: 0 0 1rem;
+      max-width: 18ch;
+      font-size: clamp(2.25rem, 6vw, 3.75rem);
+      line-height: 1.08;
+      letter-spacing: -0.01em;
+    }
+    .hero .lede { margin: 0; max-width: 36rem; font-size: 1.0625rem; color: var(--hero-sub); }
+
+    main.wrap { padding-top: 2rem; padding-bottom: 1rem; }
+
+    /* Headline numbers */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.75rem;
+      margin: 0 0 1.5rem;
+      padding: 0;
+      list-style: none;
+    }
+    .stat {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 0.875rem 1rem;
+      box-shadow: var(--shadow);
+    }
+    .stat .num { display: block; font-size: 1.5rem; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1.2; }
+    .stat .lbl { display: block; font-size: 0.8125rem; color: var(--text-secondary); }
+
+    /* Price rule callout */
+    .rule-note {
+      margin: 0 0 1.75rem;
+      padding: 0.875rem 1rem;
+      background: var(--note-bg);
+      color: var(--note-text);
+      border-left: 4px solid var(--note-border);
+      border-radius: 6px;
+      font-size: 0.9375rem;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      margin: 0 0 1.5rem;
+      overflow: hidden;
+    }
+    .card-head { padding: 1rem 1.25rem 0; }
+    .card-head h2 { margin: 0; font-size: 1.125rem; }
+    .card-head p { margin: 0.25rem 0 0; font-size: 0.875rem; color: var(--text-secondary); }
+    .section-note { margin: 0 0 0.75rem; color: var(--text-secondary); font-size: 0.9375rem; }
 
     /* Bar chart */
-    figure { margin: 2rem 0; }
-    figcaption { font-weight: 600; margin-bottom: 0.25rem; }
-    .chart-sub { color: var(--text-secondary); font-size: 0.875rem; margin: 0 0 1rem; }
+    .chart-body { padding: 1rem 1.25rem 1.25rem; }
     .chart { list-style: none; margin: 0; padding: 0; position: relative; }
     .chart li {
       display: grid;
@@ -74,12 +167,7 @@
     }
     .chart .label { text-align: right; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .chart .track { display: flex; align-items: center; gap: 0.5rem; min-width: 0; }
-    .chart .bar {
-      height: 18px;
-      background: var(--bar);
-      border-radius: 0 4px 4px 0;
-      flex: none;
-    }
+    .chart .bar { height: 18px; background: var(--bar); border-radius: 0 4px 4px 0; flex: none; }
     .chart li:hover .bar, .chart li:focus .bar { background: var(--bar-hover); }
     .chart li:focus { outline: 2px solid var(--bar); outline-offset: 2px; border-radius: 2px; }
     .chart .value { color: var(--text-primary); font-variant-numeric: tabular-nums; white-space: nowrap; }
@@ -100,48 +188,94 @@
     /* Table */
     .table-wrap { overflow-x: auto; }
     table { border-collapse: collapse; width: 100%; font-size: 0.9375rem; }
-    caption { text-align: left; font-weight: 600; margin-bottom: 0.5rem; }
-    th, td { padding: 0.375rem 0.5rem; border-bottom: 1px solid var(--rule); }
-    th { text-align: left; color: var(--text-secondary); font-weight: 600; }
+    caption { text-align: left; padding: 0.875rem 1.25rem; font-size: 0.875rem; color: var(--text-secondary); }
+    th, td { padding: 0.75rem 1.25rem; border-bottom: 1px solid var(--rule); }
+    tbody tr:last-child td { border-bottom: 0; }
+    thead th {
+      background: var(--card-head);
+      text-align: left;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    td.rank { color: var(--text-muted); width: 4rem; font-variant-numeric: tabular-nums; }
+    td.city { font-weight: 600; }
     td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
-    .error { color: var(--text-primary); border-left: 4px solid var(--bar); padding-left: 0.75rem; }
+    .error { display: inline-block; border-left: 4px solid var(--note-border); padding-left: 0.75rem; color: var(--text-primary); }
 
+    footer { padding: 1rem 0 3rem; font-size: 0.875rem; color: var(--text-muted); }
+    footer p { margin: 0 0 0.5rem; }
+
+    @media (max-width: 40rem) {
+      .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .hero { padding: 2.5rem 0 2.25rem; }
+    }
     @media (max-width: 30rem) {
       /* Narrow screens: city name above its bar, so names are never cut off. */
       .chart li { grid-template-columns: 1fr; gap: 2px; padding: 4px 0; }
       .chart .label { text-align: left; }
+      table { font-size: 0.875rem; }
+      th, td { padding: 0.625rem 0.5rem; }
+      thead th { font-size: 0.6875rem; letter-spacing: 0.03em; }
+      caption, .card-head, .chart-body { padding-left: 0.75rem; padding-right: 0.75rem; }
+      td.rank { width: 2rem; }
+      th:first-child, td:first-child { padding-left: 0.75rem; }
+      th:last-child, td:last-child { padding-right: 0.75rem; }
     }
   </style>
 </head>
 <body>
-  <main>
-    <h1>Home prices in college towns</h1>
-    <p class="lede">Median sale price in each of the 18 cities and towns in the College-town home sales dataset.</p>
-
-    <figure id="chart-figure">
-      <figcaption>Median sale price by city</figcaption>
-      <p class="chart-sub" id="chart-sub">Loading…</p>
-      <ul class="chart" id="chart" aria-label="Horizontal bar chart of median sale price by city, highest first"></ul>
-    </figure>
-
-    <div class="table-wrap">
-      <table id="city-table">
-        <caption>Median sale price by city</caption>
-        <thead>
-          <tr>
-            <th scope="col">City</th>
-            <th scope="col">State</th>
-            <th scope="col" class="num">Sales counted</th>
-            <th scope="col" class="num">Median sale price</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+  <header class="hero">
+    <div class="wrap">
+      <p class="eyebrow">College-town home sales</p>
+      <h1>What a home costs in each college town</h1>
+      <p class="lede">The median sale price in each of the 18 cities and towns in the dataset, from the most expensive to the least.</p>
     </div>
+  </header>
 
-    <p class="note" id="rule-note">Price rule: sales under $10,000 are left out, because they are not real market prices.</p>
+  <main class="wrap">
+    <ul class="stats" aria-label="Key numbers">
+      <li class="stat"><span class="num" id="stat-cities">–</span><span class="lbl">cities and towns</span></li>
+      <li class="stat"><span class="num" id="stat-sales">–</span><span class="lbl">sales counted</span></li>
+      <li class="stat"><span class="num" id="stat-high">–</span><span class="lbl" id="stat-high-lbl">highest median</span></li>
+      <li class="stat"><span class="num" id="stat-low">–</span><span class="lbl" id="stat-low-lbl">lowest median</span></li>
+    </ul>
+
+    <p class="rule-note" id="rule-note"><strong>Price rule:</strong> sales under $10,000 are left out, because they are not real market prices.</p>
+
+    <section class="card" aria-labelledby="chart-title">
+      <div class="card-head">
+        <h2 id="chart-title">Median sale price by city</h2>
+        <p id="chart-sub">Loading…</p>
+      </div>
+      <div class="chart-body">
+        <ul class="chart" id="chart" aria-label="Horizontal bar chart of median sale price by city, highest first"></ul>
+      </div>
+    </section>
+
+    <p class="section-note" id="table-note">Every city, ranked by median sale price.</p>
+    <section class="card">
+      <div class="table-wrap">
+        <table id="city-table">
+          <caption>Median sale price by city and state</caption>
+          <thead>
+            <tr>
+              <th scope="col">Rank</th>
+              <th scope="col">City</th>
+              <th scope="col" class="num">Median sale price</th>
+              <th scope="col" class="num">Sales counted</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
   </main>
-  <footer>
+
+  <footer class="wrap">
+    <p>A median of an even number of sales is the average of the middle two, shown rounded to the dollar.</p>
     <p>Data: College-town home sales dataset, version 1.0 (2026). University of Illinois-Deloitte Foundation Center for Business Emerging Technologies. Data collected March 2026.</p>
   </footer>
 
@@ -149,20 +283,30 @@
     // Numbers come from data/city_median_prices.json, made by scripts/city_medians.py.
     const dollars = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
     const count = new Intl.NumberFormat("en-US");
+    const setText = (id, text) => { document.getElementById(id).textContent = text; };
 
     fetch("data/city_median_prices.json")
       .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(data => {
         const cities = data.cities.slice().sort((a, b) => b.median_price - a.median_price);
-        const max = Math.max(...cities.map(c => c.median_price));
+        const max = cities[0].median_price;
+        const high = cities[0];
+        const low = cities[cities.length - 1];
 
-        document.getElementById("chart-sub").textContent =
-          `Highest first. ${count.format(data.included_rows)} of ${count.format(data.total_rows)} sales; ` +
-          `${count.format(data.excluded_rows)} sales under ${dollars.format(data.min_price)} are left out.`;
-        document.getElementById("rule-note").textContent =
-          `Price rule: the ${count.format(data.excluded_rows)} sales under ${dollars.format(data.min_price)} are left out, ` +
-          `because they are not real market prices. Every median on this page uses the remaining ` +
-          `${count.format(data.included_rows)} sales. A median of an even number of sales is the average of the middle two, rounded to the dollar.`;
+        // Headline numbers
+        setText("stat-cities", count.format(cities.length));
+        setText("stat-sales", count.format(data.included_rows));
+        setText("stat-high", dollars.format(high.median_price));
+        setText("stat-high-lbl", `highest median · ${high.city}, ${high.state}`);
+        setText("stat-low", dollars.format(low.median_price));
+        setText("stat-low-lbl", `lowest median · ${low.city}, ${low.state}`);
+
+        document.getElementById("rule-note").innerHTML =
+          `<strong>Price rule:</strong> the ${count.format(data.excluded_rows)} sales under ${dollars.format(data.min_price)} ` +
+          `are left out, because they are not real market prices. Every median on this page uses the other ` +
+          `${count.format(data.included_rows)} of the ${count.format(data.total_rows)} sales.`;
+        setText("chart-sub", `Highest first. Hover over or tab to a bar to see how many sales it counts.`);
+        setText("table-note", `All ${count.format(cities.length)} cities, ranked by median sale price.`);
 
         // Chart
         const chart = document.getElementById("chart");
@@ -202,12 +346,13 @@
 
         // Table
         const tbody = document.querySelector("#city-table tbody");
-        cities.forEach(c => {
+        cities.forEach((c, i) => {
           const tr = document.createElement("tr");
           tr.innerHTML =
-            `<td>${c.city}</td><td>${c.state}</td>` +
-            `<td class="num">${count.format(c.sales)}</td>` +
-            `<td class="num">${dollars.format(c.median_price)}</td>`;
+            `<td class="rank">${i + 1}</td>` +
+            `<td class="city">${c.city}, ${c.state}</td>` +
+            `<td class="num">${dollars.format(c.median_price)}</td>` +
+            `<td class="num">${count.format(c.sales)}</td>`;
           tbody.appendChild(tr);
         });
       })
