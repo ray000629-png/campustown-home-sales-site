@@ -1,31 +1,220 @@
 <!DOCTYPE html>
-<!-- A placeholder from the Home Sales template. Replace this file with your site's first page. -->
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Under construction</title>
+  <title>College-town Home Prices</title>
   <!-- An empty icon, so the browser doesn't log an error looking for favicon.ico -->
   <link rel="icon" href="data:,">
   <style>
-    :root { color-scheme: light dark; }
+    :root {
+      color-scheme: light;
+      --surface: #fcfcfb;
+      --text-primary: #0b0b0b;
+      --text-secondary: #52514e;
+      --text-muted: #6f6e69;
+      --rule: #e4e3df;
+      --bar: #2a78d6;
+      --bar-hover: #1c5cab;
+      --tooltip-bg: #0b0b0b;
+      --tooltip-text: #fcfcfb;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        color-scheme: dark;
+        --surface: #1a1a19;
+        --text-primary: #f0efec;
+        --text-secondary: #c3c2b7;
+        --text-muted: #9c9b93;
+        --rule: #3a3936;
+        --bar: #3987e5;
+        --bar-hover: #6da7ec;
+        --tooltip-bg: #f0efec;
+        --tooltip-text: #1a1a19;
+      }
+    }
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --surface: #1a1a19;
+      --text-primary: #f0efec;
+      --text-secondary: #c3c2b7;
+      --text-muted: #9c9b93;
+      --rule: #3a3936;
+      --bar: #3987e5;
+      --bar-hover: #6da7ec;
+      --tooltip-bg: #f0efec;
+      --tooltip-text: #1a1a19;
+    }
+
     body {
-      max-width: 40rem;
+      max-width: 48rem;
       margin: 0 auto;
       padding: 3rem 1rem;
       font-family: system-ui, sans-serif;
       line-height: 1.5;
+      background: var(--surface);
+      color: var(--text-primary);
     }
-    footer { margin-top: 3rem; font-size: 0.875rem; opacity: 0.75; }
+    h1 { line-height: 1.2; }
+    .lede, .note { color: var(--text-secondary); }
+    footer { margin-top: 3rem; font-size: 0.875rem; color: var(--text-muted); }
+
+    /* Bar chart */
+    figure { margin: 2rem 0; }
+    figcaption { font-weight: 600; margin-bottom: 0.25rem; }
+    .chart-sub { color: var(--text-secondary); font-size: 0.875rem; margin: 0 0 1rem; }
+    .chart { list-style: none; margin: 0; padding: 0; position: relative; }
+    .chart li {
+      display: grid;
+      grid-template-columns: minmax(7rem, 11rem) 1fr;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 3px 0;
+      font-size: 0.875rem;
+    }
+    .chart .label { text-align: right; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .chart .track { display: flex; align-items: center; gap: 0.5rem; min-width: 0; }
+    .chart .bar {
+      height: 18px;
+      background: var(--bar);
+      border-radius: 0 4px 4px 0;
+      flex: none;
+    }
+    .chart li:hover .bar, .chart li:focus .bar { background: var(--bar-hover); }
+    .chart li:focus { outline: 2px solid var(--bar); outline-offset: 2px; border-radius: 2px; }
+    .chart .value { color: var(--text-primary); font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .tooltip {
+      position: absolute;
+      pointer-events: none;
+      background: var(--tooltip-bg);
+      color: var(--tooltip-text);
+      font-size: 0.8125rem;
+      padding: 0.375rem 0.5rem;
+      border-radius: 4px;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.1s;
+    }
+    .tooltip.show { opacity: 1; }
+
+    /* Table */
+    .table-wrap { overflow-x: auto; }
+    table { border-collapse: collapse; width: 100%; font-size: 0.9375rem; }
+    caption { text-align: left; font-weight: 600; margin-bottom: 0.5rem; }
+    th, td { padding: 0.375rem 0.5rem; border-bottom: 1px solid var(--rule); }
+    th { text-align: left; color: var(--text-secondary); font-weight: 600; }
+    td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+    .error { color: var(--text-primary); border-left: 4px solid var(--bar); padding-left: 0.75rem; }
+
+    @media (max-width: 30rem) {
+      /* Narrow screens: city name above its bar, so names are never cut off. */
+      .chart li { grid-template-columns: 1fr; gap: 2px; padding: 4px 0; }
+      .chart .label { text-align: left; }
+    }
   </style>
 </head>
 <body>
   <main>
-    <h1>This site is under construction</h1>
-    <p>It will show findings from the College-town home sales dataset.</p>
+    <h1>Home prices in college towns</h1>
+    <p class="lede">Median sale price in each of the 18 cities and towns in the College-town home sales dataset.</p>
+
+    <figure id="chart-figure">
+      <figcaption>Median sale price by city</figcaption>
+      <p class="chart-sub" id="chart-sub">Loading…</p>
+      <ul class="chart" id="chart" aria-label="Horizontal bar chart of median sale price by city, highest first"></ul>
+    </figure>
+
+    <div class="table-wrap">
+      <table id="city-table">
+        <caption>Median sale price by city</caption>
+        <thead>
+          <tr>
+            <th scope="col">City</th>
+            <th scope="col">State</th>
+            <th scope="col" class="num">Sales counted</th>
+            <th scope="col" class="num">Median sale price</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <p class="note" id="rule-note">Price rule: sales under $10,000 are left out, because they are not real market prices.</p>
   </main>
   <footer>
     <p>Data: College-town home sales dataset, version 1.0 (2026). University of Illinois-Deloitte Foundation Center for Business Emerging Technologies. Data collected March 2026.</p>
   </footer>
+
+  <script>
+    // Numbers come from data/city_median_prices.json, made by scripts/city_medians.py.
+    const dollars = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+    const count = new Intl.NumberFormat("en-US");
+
+    fetch("data/city_median_prices.json")
+      .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(data => {
+        const cities = data.cities.slice().sort((a, b) => b.median_price - a.median_price);
+        const max = Math.max(...cities.map(c => c.median_price));
+
+        document.getElementById("chart-sub").textContent =
+          `Highest first. ${count.format(data.included_rows)} of ${count.format(data.total_rows)} sales; ` +
+          `${count.format(data.excluded_rows)} sales under ${dollars.format(data.min_price)} are left out.`;
+        document.getElementById("rule-note").textContent =
+          `Price rule: the ${count.format(data.excluded_rows)} sales under ${dollars.format(data.min_price)} are left out, ` +
+          `because they are not real market prices. Every median on this page uses the remaining ` +
+          `${count.format(data.included_rows)} sales. A median of an even number of sales is the average of the middle two, rounded to the dollar.`;
+
+        // Chart
+        const chart = document.getElementById("chart");
+        const tip = document.createElement("div");
+        tip.className = "tooltip";
+        tip.setAttribute("aria-hidden", "true");
+        chart.appendChild(tip);
+
+        cities.forEach(c => {
+          const li = document.createElement("li");
+          li.tabIndex = 0;
+          const name = `${c.city}, ${c.state}`;
+          li.setAttribute("aria-label", `${name}: median ${dollars.format(c.median_price)} from ${count.format(c.sales)} sales`);
+          // Bar width is a share of the largest median, leaving room for the value label.
+          const pct = (c.median_price / max) * 78;
+          li.innerHTML =
+            `<span class="label" title="${name}">${name}</span>` +
+            `<span class="track"><span class="bar" style="width:${pct}%"></span>` +
+            `<span class="value">${dollars.format(c.median_price)}</span></span>`;
+
+          const show = () => {
+            tip.textContent = `${name} · ${dollars.format(c.median_price)} · ${count.format(c.sales)} sales`;
+            const chartBox = chart.getBoundingClientRect();
+            const bar = li.querySelector(".bar").getBoundingClientRect();
+            tip.classList.add("show");
+            const left = Math.min(bar.left - chartBox.left, chartBox.width - tip.offsetWidth);
+            tip.style.left = Math.max(0, left) + "px";
+            tip.style.top = (li.offsetTop - tip.offsetHeight - 2) + "px";
+          };
+          const hide = () => tip.classList.remove("show");
+          li.addEventListener("mouseenter", show);
+          li.addEventListener("focus", show);
+          li.addEventListener("mouseleave", hide);
+          li.addEventListener("blur", hide);
+          chart.appendChild(li);
+        });
+
+        // Table
+        const tbody = document.querySelector("#city-table tbody");
+        cities.forEach(c => {
+          const tr = document.createElement("tr");
+          tr.innerHTML =
+            `<td>${c.city}</td><td>${c.state}</td>` +
+            `<td class="num">${count.format(c.sales)}</td>` +
+            `<td class="num">${dollars.format(c.median_price)}</td>`;
+          tbody.appendChild(tr);
+        });
+      })
+      .catch(err => {
+        document.getElementById("chart-sub").innerHTML =
+          `<span class="error">Could not load data/city_median_prices.json (${err.message}).</span>`;
+      });
+  </script>
 </body>
 </html>

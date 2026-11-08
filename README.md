@@ -36,7 +36,11 @@ https://your-username.github.io/your-repo-name/
 
 ## Data notes
 
-_Replace this line. Say which rows you left out and why, and how each figure on the site is defined. "Five things that will bite you" in the description sheet lists the problems to cover._
+**Price rule:** every price figure leaves out the 40 sales under $10,000 (four are under $1,000, one is $0). They are not real market prices. 35,402 of the 35,442 rows are used.
+
+**Median sale price by city** (the bar chart and the table on `index.html`): the median `sale_price` of the counted sales in each `city`. A median of an even number of sales is the average of the middle two, shown rounded to the dollar. These medians can differ slightly from the description sheet's table, which uses a $1,000 cutoff (for example, Ann Arbor is $572,000 here and $571,000 there).
+
+**How to remake the data file:** `python3 scripts/city_medians.py` reads `data/college_town_home_sales.csv` and writes `data/city_median_prices.json`, which the page loads. It uses only the Python standard library.
 
 ## Tools we used
 
