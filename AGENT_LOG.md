@@ -20,6 +20,6 @@ Copy this outline for each entry:
 
 ## 2026-11-08: Redesign index.html in the style of a reference page
 
-- **Asked:** (with a screenshot of a reference page) "幫我把網頁生成成像教授這個格式有著更成熟完整的介面以及標題，文字可以稍微不同，顏色也可以有變化"
+- **Asked:** (with a screenshot of a reference page; prompt written in Chinese, translated here) "Make the web page follow the format of this example from the professor, with a more polished and complete interface and title. The wording can be a little different, and the colors can change too."
 - **Agent produced:** A new look for `index.html`: a dark navy header band with a small label, a large title and an intro line; four headline numbers (cities, sales counted, highest and lowest median); the price rule in a highlighted box; the bar chart and the table each in their own card; a Rank column in the table. All numbers still come from `data/city_median_prices.json`.
 - **Checked or changed:** The agent took screenshots at desktop width, phone width and in dark mode. Its first version had the headline numbers stuck to the bottom of the header, and on a phone the table was too wide and cut off its last column. It fixed both and checked again.
